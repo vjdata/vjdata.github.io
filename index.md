@@ -2,7 +2,7 @@
 layout: default
 ---
 
-#We Offer
+# We Offer
 * Development of websites
 * Development of customized software
 * Maintenance of existing systems
@@ -10,7 +10,7 @@ layout: default
 
 We want to help you find solutions to your IT issues.
 
-#Contact Us
+# Contact Us
 <div id="wufoo-z1gisdnz0l66zx0">
 Fill out our <a href="https://vjdata.wufoo.com/forms/z1gisdnz0l66zx0">contact form</a>.
 </div>
