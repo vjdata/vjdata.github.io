@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
 
 {% seo %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" as="style" type="text/css" crossorigin>
     <meta name="description" content="{{ page.description | default: site.description | default: site.github.project_tagline }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
-	  
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<!-- Google Tag Manager -->
 	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -17,7 +19,6 @@
 	<!-- End Google Tag Manager -->
 	  
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="/css/custom.css">
   </head>
@@ -28,19 +29,19 @@
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 	  
-    <section class="page-header">
+    <header class="page-header" role="banner">
       <h1 class="project-name">{{ site.title | default: site.github.repository_name }}</h1>
       <h2 class="project-tagline">{{ site.description | default: site.github.project_tagline }}</h2>
-    </section>
+    </header>
 
-    <section class="main-content">
+    <main id="content" class="main-content" role="main">
       {{ content }}
 
       <footer class="site-footer">
 	  <span class="site-footer-owner">
 	    </span>
       </footer>
-    </section>
+    </main>
 	  <script src="/js/custom.js"></script>	  
   </body>
 </html>
