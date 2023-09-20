@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/grid-gallery.min.css"/>
+    <title>VJ Data</title>
+    <script id="handlebars-list" type="text/x-handlebars-template">
+        {{#each images}}
+        <img src="img/{{this}}">
+        {{/each}}
+    </script>
+</head>
+<body>
+    <div class="gg-container">
+        <div id="image-list" class="gg-box">
+            <img id="first-image" src="img/00001.webp">
+        </div>
+      </div>
+
+    <script type="text/javascript" src="js/handlebars.min.js"></script>
+    <script>
+        var temp = document.getElementById('handlebars-list');
+        var template = temp.innerHTML;
+        var context = { images: getImageNames()} ;
+        var templateScript = Handlebars.compile(template);
+        var html = templateScript(context);
+
+        const target = document.getElementById("first-image");
+        target.insertAdjacentHTML("afterend", html);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'js/grid-gallery.min.js';
+            head.appendChild(script);
+        }, false);
+
+
+        function getImageNames(){
+            var images = [];
+
+            for (let i = 2; i < 160; i++) {
+                images.push(String(i).padStart(5, '0') + '.webp');
+            }
+
+            return images;
+        }
+    </script>
+
+</body>
+</html>l
