@@ -7,7 +7,7 @@
     <title>VJ Data</title>
     <script id="handlebars-list" type="text/x-handlebars-template">
         {{#each images}}
-        <img src="img/{{this}}">
+        <img src="img/{{this}}" loading="lazy" alt="{{this}}">
         {{/each}}
     </script>
 </head>
@@ -41,7 +41,7 @@
         function getImageNames(){
             var images = [];
 
-            for (let i = 2; i < 160; i++) {
+            for (let i = 2; i < 691; i++) {
                 images.push(String(i).padStart(5, '0') + '.webp');
             }
 
