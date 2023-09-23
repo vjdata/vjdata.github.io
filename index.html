@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/grid-gallery.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/grid-gallery.css" />
     <title>VJ Data</title>
     <script id="handlebars-list" type="text/x-handlebars-template">
         {{#each images}}
-        <img src="img/{{this}}" loading="lazy" alt="{{this}}">
+        <img src="img/{{this.src}}" loading="lazy" alt="{{this.src}}" onclick="imageClicked('{{{this.id}}}', '{{this.prev}}', '{{this.next}}');">
         {{/each}}
     </script>
 </head>
+
 <body>
     <div class="gg-container">
-        <div id="image-list" class="gg-box">
-            <img id="first-image" src="img/00001.webp">
+        <div id="gg-screen" style="display: none;">
+            <div class="gg-image">
+                <img id="gg-screen-image" src="img/00001.webp" data-id="1" data-prev="0" data-next="2">
+            </div>
+            <div class="gg-close gg-btn">×</div>
+            <div class="gg-next gg-btn">→</div>
+            <div class="gg-prev gg-btn">←</div>
         </div>
-      </div>
+        <div id="image-list" class="gg-box">
+            <img id="first-image" src="img/00001.webp" onclick="imageClicked(1, 0, 2);">
+        </div>
+    </div>
 
     <script type="text/javascript" src="js/handlebars.min.js"></script>
     <script>
+        var imagecount = 691;
+        const root = document.querySelector("body, html");
+        var screen = document.getElementById('gg-screen');
+        var screenImage = document.getElementById('gg-screen-image');
+        var prevBtn = document.querySelector(".gg-prev");
+        var nextBtn = document.querySelector(".gg-next");
+        var closeBtn = document.querySelector(".gg-close");
         var temp = document.getElementById('handlebars-list');
         var template = temp.innerHTML;
-        var context = { images: getImageNames()} ;
+        var context = { images: getImageNames() };
         var templateScript = Handlebars.compile(template);
         var html = templateScript(context);
 
@@ -30,24 +47,88 @@
         target.insertAdjacentHTML("afterend", html);
 
         document.addEventListener('DOMContentLoaded', function () {
-            var head = document.getElementsByTagName('head')[0];
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = 'js/grid-gallery.min.js';
-            head.appendChild(script);
         }, false);
 
+        screen.addEventListener("click", function (e) {
+            if (e.target == this || e.target == closeBtn) hide();
+        });
 
-        function getImageNames(){
+        root.addEventListener("keydown", function (e) {
+            if (e.keyCode == 37 || e.keyCode == 38) prev();
+            if (e.keyCode == 39 || e.keyCode == 40) next();
+            if (e.keyCode == 27) hide();
+        });
+
+        prevBtn.addEventListener("click", prev);
+        nextBtn.addEventListener("click", next);
+
+        function prev() {
+            if (prevBtn.hidden) {
+                return;
+            }
+
+            p = screenImage.dataset.prev == 0 ? 0 : parseInt(screenImage.dataset.prev)-1;
+            n = screenImage.dataset.next == imagecount ? 0 : parseInt(screenImage.dataset.next)-1;
+
+            replaceScreenImage(parseInt(screenImage.dataset.prev), p, n);
+
+            nextBtn.hidden = false;
+            prevBtn.hidden = p == 0;
+        };
+
+        function next() {
+            if (nextBtn.hidden) {
+                return;
+            }
+
+            p = parseInt(screenImage.dataset.prev)+1;
+            n = screenImage.dataset.next == imagecount ? 0 : parseInt(screenImage.dataset.next)+1;
+
+            replaceScreenImage(parseInt(screenImage.dataset.next), p, n);
+
+            prevBtn.hidden = false;
+            nextBtn.hidden = n == 0;
+        };
+
+        function hide() {
+            root.style.overflow = 'auto';
+            screen.style.display = "none";
+        };
+
+        function getImageNames() {
             var images = [];
 
-            for (let i = 2; i < 691; i++) {
-                images.push(String(i).padStart(5, '0') + '.webp');
+            for (let i = 2; i < imagecount; i++) {
+                images.push({
+                    id: i,
+                    prev: i == 1 ? 0 : i - 1,
+                    next: i == imagecount ? 0 : i + 1,
+                    src: getSrcFromId(i)
+                });
             }
 
             return images;
         }
+
+        function getSrcFromId(id) {
+            return String(id).padStart(5, '0') + '.webp';
+        }
+
+        function imageClicked(id, prev, next) {
+            root.style.overflow = 'hidden';
+            screen = document.getElementById('gg-screen');
+            replaceScreenImage(id, prev, next);
+            screen.style.display = "block";
+        }
+
+        function replaceScreenImage(id, prev, next){
+            screenImage.src ='img/'+ getSrcFromId(id);
+            screenImage.dataset.id = id;
+            screenImage.dataset.prev = prev;
+            screenImage.dataset.next = next;
+        }
     </script>
 
 </body>
+
 </html>l
